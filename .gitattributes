@@ -1,0 +1,2 @@
+/backend/bots/engines/botBinaries/stockfish19 filter=lfs diff=lfs merge=lfs -text
+backend/bots/engines/botBinaries/stockfish19 filter=lfs diff=lfs merge=lfs -text

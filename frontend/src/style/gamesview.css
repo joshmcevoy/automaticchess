@@ -1,0 +1,35 @@
+.playerHeader, .players {
+    text-align: left;
+}
+
+.heading {
+    background-color: #F3F1E7;
+}
+
+.players {
+    display: flex;
+    flex-direction: column;
+}
+
+.player, .result {
+    display: flex;
+    flex-direction: row;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.result {
+    justify-content: center;
+}
+
+.playerName {
+    padding-right: 10px;
+}
+
+.gameRow {
+    cursor: pointer;
+}
+
+.gameRow:hover {
+    background-color: #F3F1E7;
+}

@@ -1,0 +1,25 @@
+.movesPanelCurrentGame {
+    display: flex;
+    justify-content: center;
+    background-color: #f5f3f3;
+}
+
+.movesPanel {
+    display: flex;
+    flex-direction: column;
+    background-color: #FFFEFA;
+    width: 200px;
+    height: 0;
+    min-height: 100%;
+}
+
+.movesPanelInner {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    overflow-y: scroll;
+}
+
+.movesPanelL, .movesPanelR {
+    width: 50%;
+}

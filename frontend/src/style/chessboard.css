@@ -1,0 +1,16 @@
+.chessboard {
+    display: grid;
+    grid-template-columns: repeat(8, 90px);
+}
+
+.square {
+    width: 90px; height: 90px;
+}
+
+.square-l {
+    background-color: #F3EEDC;
+}
+
+.square-d {
+    background-color: #A9BEA0;
+}

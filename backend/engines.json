@@ -1,0 +1,12 @@
+{
+    "engines": [
+        {
+            "name": "Stockfish",
+            "path": "sf.py"
+        },
+        {
+            "name": "Patricia",
+            "path": "patricia.py"
+        }
+    ]
+}

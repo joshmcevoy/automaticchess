@@ -1,0 +1,68 @@
+.engineId {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
+.engineDetails {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.engineDetails h2,
+.engineDetails p {
+    margin: 3px;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #DCDDD3;
+    margin-top: 20px; margin-bottom: 20px;
+}
+
+.engineImg {
+    border-radius: 5%;
+    object-fit: cover;
+}
+/*
+h2 {
+    font-size: 32px;
+    letter-spacing: 0.5px;
+}
+*/
+h3 {
+    font-size: 30px;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+}
+
+.statisticDesc {
+    font-weight: 350;
+    color: #6B6D65;
+    font-size: 15px;
+    margin: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.statistics {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+td, tr, table {
+    padding: 0;
+}
+
+td {
+    text-align: left;
+}
+
+.headingText {
+    font-size: 23px;
+    font-weight: 500;
+}

@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap');
+
+body {
+    background-color: #FAF8F2;
+    font-family: "Newsreader", serif;
+}
+
+h2 {
+    font-family: "Newsreader", serif;
+    font-weight: 600;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+:root {
+    --content-width: 920px;
+}
+
+.maincontent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.boardmovespanel {
+    display: flex;
+    align-items: stretch;
+}
+
+.topbar {
+    display: flex;
+    position: static;
+    width: var(--content-width);
+    align-items: center;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.topbarL {
+    width: 50%;
+    height: 100%;
+    /*background-color: blue;*/
+}
+
+.topbarR {
+    width: 50%;
+    height: 100%;
+    /*background-color: red;*/
+    display: flex;
+    justify-content: flex-end;
+}
+
+.topbargamecontent {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    /*gap: 20px;*/
+}
+
+.logo {
+    padding: 0; margin: 0;
+    font-family: "Newsreader", serif;
+    font-weight: 500;
+    font-size: 35px;
+}
+
+.menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menuItem {
+    display: inline;
+    padding: 5px;
+    margin: 15px;
+    border-bottom: 3px solid #456B50;
+}
+
+.menuItem:hover {
+    border-bottom: 4px solid #456B50;
+}
+
+.menuItemSelected {
+    border: none;
+    background-color: #456B50;
+    color: white;
+}
+
+.playerCard {
+    display: flex;
+    align-items: center;
+    background-color: #FFFEFA;
+    height: 30px;
+    width: 150px;
+}
+
+.playerName {
+    padding-right: 10px;
+}
+
+.elo {
+    background-color: #ff5b06;
+    font-size: 12px;
+    color: #FFFEFA;
+    padding: 3px;
+    border-radius: 25%;
+    height: 10px;
+}
