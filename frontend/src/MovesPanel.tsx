@@ -10,7 +10,7 @@ function MovesPanel({ moveList }: MovesPanelProps) {
             <div className="movesPanelCurrentGame">
                 <h2>Move History</h2>
             </div>
-            <div>
+            <div className="movesPlayed">
                 {moveList.map((pair, index) => (
                     <div className="movesPanelInner" key={index}>
                         <div className="movesPanelL">{index + 1}. {pair[0]}</div>

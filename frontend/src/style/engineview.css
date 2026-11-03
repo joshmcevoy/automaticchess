@@ -58,8 +58,12 @@ td, tr, table {
     padding: 0;
 }
 
-td {
+td, th {
     text-align: left;
+}
+
+.rgHeader {
+    padding: 0;
 }
 
 .headingText {

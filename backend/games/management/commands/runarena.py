@@ -22,6 +22,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.cleanDB()
 
+        if options["json"] is None:
+            raise RuntimeError("No JSON file provided")
+
         # Path to JSON file describing engine details
         enginesPath = options["json"]
 
@@ -33,17 +36,20 @@ class Command(BaseCommand):
                 for engine in engines:
                     id = random.randrange(10**7, 10**8)
                     name = engine["name"]
-                    path = engine["path"]
+                    filename = engine["filename"]
+                    config = engine["config"]
 
-                    newEngine = Engine(id, name, path)
+                    newEngine = Engine(id, name, filename, config)
                     newEngine.create()
                     self.engines.append(newEngine)
 
             except json.JSONDecodeError as e:
-                print(f"Invalid JSON: {e}")
+                raise RuntimeError(f"Invalid JSON: {e}")
 
         asyncio.run(self.scheduler())
 
+    # take list of bots, remove two random ones to create a matchup,
+    # repeat until there isn't enough bots to create a game
     async def scheduler(self):
         games = []
         while len(self.engines) >= 2:
@@ -55,21 +61,6 @@ class Command(BaseCommand):
 
         await asyncio.gather(*games)
 
-        '''
-        gameIds = []
-        gamesNum = options["games"]
-
-        for _ in range(gamesNum):
-            gameId = random.randint(10000000, 99999999)
-
-            manager = gameManager(gameId, 46983419, 10583857)
-            self.gameManagers.append(manager)
-
-            gameIds.append(gameId)
-            print(f"Started game: http://localhost:5173/game/{gameId} at {datetime.now().strftime('%I:%M:%S %p')}")
-
-        asyncio.run(self.run_games())
-        '''
 
     def cleanDB(self):
         with connection.cursor() as cursor:
@@ -89,7 +80,3 @@ class Command(BaseCommand):
             await manager.gameLoop()
         finally:
             print("done")
-
-        #await asyncio.gather(
-        #    *(gameManager.gameLoop() for gameManager in self.gameManagers)
-        #)

@@ -2,11 +2,147 @@
     "engines": [
         {
             "name": "Stockfish",
-            "path": "sf.py"
+            "filename": "stockfish19",
+            "config": {
+                "Threads": 1,
+                "Hash": 32,
+                "Skill Level": 0
+            }
         },
         {
             "name": "Patricia",
-            "path": "patricia.py"
+            "filename": "patricia",
+            "config": {
+                "Threads": 1,
+                "Hash": 32,
+                "Skill_Level": 20
+            }
+        },
+        {
+            "name": "Stockfish",
+            "filename": "stockfish19",
+            "config": {
+                "Threads": 1,
+                "Hash": 32,
+                "Skill Level": 0
+            }
+        },
+        {
+            "name": "Patricia",
+            "filename": "patricia",
+            "config": {
+                "Threads": 1,
+                "Hash": 32,
+                "Skill_Level": 20
+            }
+        },
+        {
+            "name": "Stockfish",
+            "filename": "stockfish19",
+            "config": {
+                "Threads": 1,
+                "Hash": 32,
+                "Skill Level": 0
+            }
+        },
+        {
+            "name": "Patricia",
+            "filename": "patricia",
+            "config": {
+                "Threads": 1,
+                "Hash": 32,
+                "Skill_Level": 20
+            }
+        },
+        {
+            "name": "Stockfish",
+            "filename": "stockfish19",
+            "config": {
+                "Threads": 1,
+                "Hash": 32,
+                "Skill Level": 0
+            }
+        },
+        {
+            "name": "Patricia",
+            "filename": "patricia",
+            "config": {
+                "Threads": 1,
+                "Hash": 32,
+                "Skill_Level": 20
+            }
+        },
+        {
+            "name": "Stockfish",
+            "filename": "stockfish19",
+            "config": {
+                "Threads": 1,
+                "Hash": 32,
+                "Skill Level": 0
+            }
+        },
+        {
+            "name": "Patricia",
+            "filename": "patricia",
+            "config": {
+                "Threads": 1,
+                "Hash": 32,
+                "Skill_Level": 20
+            }
+        },
+        {
+            "name": "Stockfish",
+            "filename": "stockfish19",
+            "config": {
+                "Threads": 1,
+                "Hash": 32,
+                "Skill Level": 0
+            }
+        },
+        {
+            "name": "Patricia",
+            "filename": "patricia",
+            "config": {
+                "Threads": 1,
+                "Hash": 32,
+                "Skill_Level": 20
+            }
+        },
+        {
+            "name": "Stockfish",
+            "filename": "stockfish19",
+            "config": {
+                "Threads": 1,
+                "Hash": 32,
+                "Skill Level": 0
+            }
+        },
+        {
+            "name": "Patricia",
+            "filename": "patricia",
+            "config": {
+                "Threads": 1,
+                "Hash": 32,
+                "Skill_Level": 20
+            }
+        },
+        {
+            "name": "Stockfish",
+            "filename": "stockfish19",
+            "config": {
+                "Threads": 1,
+                "Hash": 32,
+                "Skill Level": 0
+            }
+        },
+        {
+            "name": "Patricia",
+            "filename": "patricia",
+            "config": {
+                "Threads": 1,
+                "Hash": 32,
+                "Skill_Level": 20
+            }
         }
     ]
 }

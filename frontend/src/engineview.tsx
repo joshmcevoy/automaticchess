@@ -45,6 +45,16 @@ function EngineView() {
             <div className="gameDetail">
                 <div className="recentGames">
                     <p className="headingText">Recent Games</p>
+                    <table>
+                        <tr>
+                            <th className="rgHeader">hi</th>
+                            <th>hi 2</th>
+                        </tr>
+                        <tr>
+                            <td>hi</td>
+                            <td>hi 2</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>

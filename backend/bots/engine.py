@@ -4,14 +4,16 @@ from pathlib import Path
 from threading import Lock, Thread
 from django.db import connection
 from channels.db import database_sync_to_async
+import json
 
 class Engine:
-    def __init__(self, id, name, path, depth=8):
+    def __init__(self, id, name, path, config):
         self.id = id
         self.name = name
         self.filename = path
-        self.path = Path(__file__).resolve().parent / f"engines/{path}"
-        self.depth = depth
+        #self.path = Path(__file__).resolve().parent / f"engines/{path}"
+        self.path = Path(__file__).resolve().parent / "runEngine.py"
+        self.config = config
 
     def create(self):
         with connection.cursor() as cursor:
@@ -19,7 +21,7 @@ class Engine:
 
     def start(self):
         self.engine = subprocess.Popen(
-            [sys.executable, str(self.path), str(self.depth)],
+            [sys.executable, str(self.path), str(self.filename), json.dumps(self.config)],
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -46,7 +48,5 @@ class Engine:
             self.engine.stdin.flush()
 
             response = self.engine.stdout.readline()
-
-            #writeLog(fen, response)
 
             return response.strip()

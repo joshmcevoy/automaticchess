@@ -9,7 +9,6 @@
     flex-direction: column;
     background-color: #FFFEFA;
     width: 200px;
-    height: 0;
     min-height: 100%;
 }
 
@@ -22,4 +21,9 @@
 
 .movesPanelL, .movesPanelR {
     width: 50%;
+}
+
+.movesPlayed {
+    height: 100%;
+    overflow-y: scroll;
 }

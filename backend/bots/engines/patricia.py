@@ -8,11 +8,11 @@ import random
 class patricia:
     def __init__(self, depth=8):
         self.depth = depth
-        self.engine = chess.engine.SimpleEngine.popen_uci(str(Path(__file__).resolve().parent / "botBinaries/stockfish19"))
+        self.engine = chess.engine.SimpleEngine.popen_uci(str(Path(__file__).resolve().parent / "botBinaries/patricia"))
         self.engine.configure({
             "Threads": 1,
             "Hash": 32,
-            "Skill Level": 20
+            "Skill_Level": 20
         })
 
     def choose_move(self, fen):

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import './style/gamesview.css'
 import { loadGame, type GameData } from "./loadGame"
 
-function GamesView() {
+function GameHistoryView() {
 
     const [gameData, setGameData] = useState<GameData[] | null>(null);
     const navigate = useNavigate();
@@ -68,4 +68,4 @@ function GamesView() {
     )
 }
 
-export default GamesView;
+export default GameHistoryView;

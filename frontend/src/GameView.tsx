@@ -4,7 +4,7 @@ import Chessboard from './chessboard';
 import MovesPanel from './MovesPanel';
 import { loadGame, type Game, type Bot } from "./loadGame";
 
-function Board() {
+function GameView() {
 
     const { gameId } = useParams();
     const [game, setGame] = useState<Game | null>(null);
@@ -47,4 +47,4 @@ function Board() {
     )
 }
 
-export default Board;
+export default GameView;

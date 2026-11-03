@@ -1,9 +1,10 @@
 import { Routes, Route, Link, useLocation } from "react-router";
-import Board from './board';
+import GameView from './GameView';
 import Ladder from "./ladder";
-import './style/global.css'
 import EngineView from "./engineview";
-import GamesView from "./gamesview";
+import GameHistoryView from "./GameHistoryView";
+import './style/global.css'
+import AboutView from "./AboutView";
 
 function App() {
     const curRoute = useLocation();
@@ -35,11 +36,12 @@ function App() {
                     </div>
                 </div>
                 <Routes>
-                    <Route path="/" element={<Board />} />
-                    <Route path="/game/:gameId" element={<Board />} />
+                    <Route path="/" element={<GameView />} />
+                    <Route path="/game/:gameId" element={<GameView />} />
                     <Route path="/ladder" element={<Ladder />} />
-                    <Route path="/games" element={<GamesView />} />
+                    <Route path="/games" element={<GameHistoryView />} />
                     <Route path="/engine/:id" element={<EngineView />} />
+                    <Route path="/about" element={<AboutView />} />
                 </Routes>
             </div>
         </div>
