@@ -1,7 +1,8 @@
 import { Routes, Route, Link, useLocation } from "react-router";
 import GameView from './GameView';
 import Ladder from "./ladder";
-import EngineView from "./engineview";
+import EngineView from "./EngineView";
+import EnginesList from "./EnginesList";
 import GameHistoryView from "./GameHistoryView";
 import './style/global.css'
 import AboutView from "./AboutView";
@@ -41,6 +42,7 @@ function App() {
                     <Route path="/ladder" element={<Ladder />} />
                     <Route path="/games" element={<GameHistoryView />} />
                     <Route path="/engine/:id" element={<EngineView />} />
+                    <Route path="/engines" element={<EnginesList />} />
                     <Route path="/about" element={<AboutView />} />
                 </Routes>
             </div>

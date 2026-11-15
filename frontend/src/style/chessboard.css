@@ -1,6 +1,5 @@
 .chessboard {
     display: grid;
-    grid-template-columns: repeat(8, 90px);
 }
 
 .square {
@@ -8,9 +7,9 @@
 }
 
 .square-l {
-    background-color: #F3EEDC;
+    background-color: var(--colour-square-l);
 }
 
 .square-d {
-    background-color: #A9BEA0;
+    background-color: var(--colour-square-d);
 }

@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Media
+MEDIA_URL = "/api/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 # Application definition
 

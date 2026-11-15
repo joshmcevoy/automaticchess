@@ -12,9 +12,11 @@ function MovesPanel({ moveList }: MovesPanelProps) {
             </div>
             <div className="movesPlayed">
                 {moveList.map((pair, index) => (
-                    <div className="movesPanelInner" key={index}>
-                        <div className="movesPanelL">{index + 1}. {pair[0]}</div>
-                        <div className="movesPanelR">{pair[1]}</div>
+                    <div className="movesPanelInner" key={index} style={{ backgroundColor: index % 2 === 0 ? 'var(--colour-background-content)' : 'var(--colour-background-content-secondary)' }}>
+                        <div className="movesPanelRow">
+                            <div className="movesPanelL">{`${index + 1}. ${pair[0]}`}</div>
+                            <div className="movesPanelR">{pair[1]}</div>
+                        </div>
                     </div>
                 ))}
             </div>

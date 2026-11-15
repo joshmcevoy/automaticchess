@@ -1,80 +1,71 @@
-export type Game = {
-    id: number;
-    gameid: number;
-    whiteid: number;
-    blackid: number;
-    winnerid: number | null;
-    isDraw: boolean;
-    timestamp: number;
-}
-
-// type for game info + bot info
-export type GameData = {
-    game: Game;
-    white: Bot;
-    black: Bot;
-    winner: Bot | null;
-};
-
 export type Bot = {
     id: number;
     playerid: number;
     name: string;
     path: string;
+    profilepicture: string;
+    elo: number;
 }
 
 export type Move = {
     id: number;
     moveNum: number;
-    gameid: number;
     move: string;
     fen: string;
+}
+
+export type Game = {
+    id: number;
+    gameid: number;
+    white: Bot;
+    black: Bot;
+    winner: Bot | undefined;
+    ongoing: boolean;
+    isDraw: boolean;
+    timestamp: number;
+    moves: Move[];
 }
 
 export async function fetchJSON<T>(url: string): Promise<T> {
     const response = await fetch(url);
 
-    if (!response.ok) {
-        throw new Error("Request failed");
-    }
+    if (!response.ok) { throw new Error(`Request to ${url} failed`) }
 
     return response.json();
 }
 
-export function loadGame(gameId: string, all: true): Promise<GameData[]>;
-export function loadGame(
-    gameId: string,
-    all?: false
-): Promise<GameData | undefined>;
+const baseURL = "http://localhost:8000"
 
-export async function loadGame(gameId: string, all: boolean = false) {
-    const baseURL = "http://localhost:8000";
-    let reqURL = `${baseURL}/games/get/?gameid=${gameId}`;
-    // get latest game if no gameid provided
-    if (!gameId) { reqURL = `${baseURL}/games/getlatest/` }
-    // get all games if all flag true
-    if (all) { reqURL = `${baseURL}/games/getall/` }
+// gameid or botid or neither, but never both.
+type loadGameOptions = { gameid: number, botid?: never } | { botid: number, gameid?: never } | { gameid?: never, botid?: never }
+export async function loadGame(options: loadGameOptions = {}): Promise<Game[]> {
+    let endpoint = "/api/games";
 
-    const games = await fetchJSON<Game[]>(reqURL);
+    if (options.botid !== undefined) {
+        endpoint = `/api/games?botid=${options.botid}`;
+    }
 
-    const results = await Promise.all(
-        games.map(async (game) => {
-            const [white, black, winner, moves] = await Promise.all([
-                fetchJSON<Bot[]>(`${baseURL}/bots/get/?botid=${game.whiteid}`),
-                fetchJSON<Bot[]>(`${baseURL}/bots/get/?botid=${game.blackid}`),
-                fetchJSON<Bot[]>(`${baseURL}/bots/get/?botid=${game.winnerid}`),
-                fetchJSON<Move[]>(`${baseURL}/games/moves?gameid=${game.gameid}`)
-            ]);
+    if (options.gameid !== undefined) {
+        endpoint = `/api/games/${options.gameid}`;
 
-            return {
-                game,
-                white: white[0],
-                black: black[0],
-                winner: winner[0],
-                moves: moves
-            }
-        })
-    );
+        if (Number.isNaN(options.gameid)) {
+            endpoint = "/api/games?latest";
+        }
+    }
 
-    return all ? results : results[0];
+    const result: Game[] = await fetchJSON<Game[]>(baseURL + endpoint);
+
+    console.log(result);
+
+    return result;
+}
+
+export async function loadBot(botid?: number): Promise<Bot[]> {
+    let endpoint = "/api/bots";
+
+    if (botid !== undefined) {
+        endpoint = `/api/bots/${botid}`;
+    }
+
+    return await fetchJSON<Bot[]>(baseURL + endpoint);
 }

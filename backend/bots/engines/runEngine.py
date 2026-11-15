@@ -1,26 +1,26 @@
-import sys
-from stockfish import Stockfish
-from pathlib import Path
 import chess
 import chess.engine
+import sys
+from pathlib import Path
+import json
 import random
 
-class patricia:
-    def __init__(self, depth=8):
-        self.depth = depth
-        self.engine = chess.engine.SimpleEngine.popen_uci(str(Path(__file__).resolve().parent / "botBinaries/patricia"))
-        self.engine.configure({
-            "Threads": 1,
-            "Hash": 32,
-            "Skill_Level": 20
-        })
+class RunEngine:
+    def __init__(self, engineName, config):
+        self.engine = chess.engine.SimpleEngine.popen_uci(
+            str(Path(__file__).resolve().parent / "botBinaries" / engineName)
+        )
+
+        self.engine.configure(config)
 
     def choose_move(self, fen):
         board = chess.Board(fen)
 
-        if random.randint(0, 50) == 0:
+        '''
+        if random.randint(0, 0) == 0:
             legalMoves = list(board.legal_moves)
             return random.choice(legalMoves)
+        '''
 
         result = self.engine.play(
             board,
@@ -40,7 +40,12 @@ class patricia:
             print(move, flush=True)
 
 if __name__ == "__main__":
-    depth = int(sys.argv[1]) if len(sys.argv) > 1 else 8
+    filename = sys.argv[1]
+    config = json.loads(sys.argv[2])
 
-    engine = patricia(depth)
-    engine.getInput()
+    runEngine = RunEngine(filename, config)
+
+    try:
+        runEngine.getInput()
+    finally:
+        runEngine.engine.quit()

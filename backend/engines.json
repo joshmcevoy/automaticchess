@@ -3,145 +3,47 @@
         {
             "name": "Stockfish",
             "filename": "stockfish19",
+            "profilepicture": "engineimg/sf.png",
             "config": {
                 "Threads": 1,
                 "Hash": 32,
-                "Skill Level": 0
+                "Skill Level": 20
             }
         },
         {
             "name": "Patricia",
             "filename": "patricia",
+            "profilepicture": "engineimg/patricia.png",
             "config": {
                 "Threads": 1,
                 "Hash": 32,
-                "Skill_Level": 20
+                "Skill_Level": 21
             }
         },
         {
-            "name": "Stockfish",
-            "filename": "stockfish19",
+            "name": "Rodent V",
+            "filename": "rodent-v",
+            "profilepicture": "engineimg/rodentv.png",
             "config": {
                 "Threads": 1,
-                "Hash": 32,
-                "Skill Level": 0
+                "Hash": 32
             }
         },
         {
-            "name": "Patricia",
-            "filename": "patricia",
+            "name": "Leela Chess Zero",
+            "filename": "lc0",
+            "profilepicture": "engineimg/lc0.jpeg",
             "config": {
                 "Threads": 1,
-                "Hash": 32,
-                "Skill_Level": 20
+                "WeightsFile": "/Users/josh/Documents/ch/backend/bots/engines/botBinaries/lc0-weights.gz"
             }
         },
         {
-            "name": "Stockfish",
-            "filename": "stockfish19",
+            "name": "Sunfish",
+            "filename": "sunfish",
+            "profilepicture": "engineimg/sunfish.jpg",
             "config": {
-                "Threads": 1,
-                "Hash": 32,
-                "Skill Level": 0
-            }
-        },
-        {
-            "name": "Patricia",
-            "filename": "patricia",
-            "config": {
-                "Threads": 1,
-                "Hash": 32,
-                "Skill_Level": 20
-            }
-        },
-        {
-            "name": "Stockfish",
-            "filename": "stockfish19",
-            "config": {
-                "Threads": 1,
-                "Hash": 32,
-                "Skill Level": 0
-            }
-        },
-        {
-            "name": "Patricia",
-            "filename": "patricia",
-            "config": {
-                "Threads": 1,
-                "Hash": 32,
-                "Skill_Level": 20
-            }
-        },
-        {
-            "name": "Stockfish",
-            "filename": "stockfish19",
-            "config": {
-                "Threads": 1,
-                "Hash": 32,
-                "Skill Level": 0
-            }
-        },
-        {
-            "name": "Patricia",
-            "filename": "patricia",
-            "config": {
-                "Threads": 1,
-                "Hash": 32,
-                "Skill_Level": 20
-            }
-        },
-        {
-            "name": "Stockfish",
-            "filename": "stockfish19",
-            "config": {
-                "Threads": 1,
-                "Hash": 32,
-                "Skill Level": 0
-            }
-        },
-        {
-            "name": "Patricia",
-            "filename": "patricia",
-            "config": {
-                "Threads": 1,
-                "Hash": 32,
-                "Skill_Level": 20
-            }
-        },
-        {
-            "name": "Stockfish",
-            "filename": "stockfish19",
-            "config": {
-                "Threads": 1,
-                "Hash": 32,
-                "Skill Level": 0
-            }
-        },
-        {
-            "name": "Patricia",
-            "filename": "patricia",
-            "config": {
-                "Threads": 1,
-                "Hash": 32,
-                "Skill_Level": 20
-            }
-        },
-        {
-            "name": "Stockfish",
-            "filename": "stockfish19",
-            "config": {
-                "Threads": 1,
-                "Hash": 32,
-                "Skill Level": 0
-            }
-        },
-        {
-            "name": "Patricia",
-            "filename": "patricia",
-            "config": {
-                "Threads": 1,
-                "Hash": 32,
-                "Skill_Level": 20
+                "Hash": 32
             }
         }
     ]

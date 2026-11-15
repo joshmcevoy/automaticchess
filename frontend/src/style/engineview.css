@@ -19,7 +19,7 @@
 hr {
     border: none;
     border-top: 1px solid #DCDDD3;
-    margin-top: 20px; margin-bottom: 20px;
+    margin-top: 10px; margin-bottom: 10px;
 }
 
 .engineImg {
@@ -39,9 +39,16 @@ h3 {
     padding: 0;
 }
 
+h4 {
+    font-size: 25px;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+}
+
 .statisticDesc {
     font-weight: 350;
-    color: #6B6D65;
+    color: var(--colour-text-secondary);
     font-size: 15px;
     margin: 0;
     padding-top: 10px;
@@ -54,19 +61,67 @@ h3 {
     align-items: center;
 }
 
+/* recent games table */
+
 td, tr, table {
     padding: 0;
 }
 
 td, th {
     text-align: left;
+    font-size: 18px;
+}
+
+.rgTable {
+    border-collapse: collapse;
+}
+
+.rgRow {
+    border-bottom: 1px solid var(--colour-background-tertiary);
+}
+
+.rgRow > th,
+.rgRow > td {
+    padding-top: 15px; padding-bottom: 15px;
 }
 
 .rgHeader {
     padding: 0;
+    color: var(--colour-text-secondary);
 }
 
 .headingText {
     font-size: 23px;
     font-weight: 500;
+}
+
+/* end recent games table */
+
+.gameDetail {
+    display: grid;
+    grid-template-columns: 25fr 10fr;
+    gap: 20px;
+}
+
+.wldRatio {
+    display: flex;
+    width: calc(100% - 2px);
+    height: 7px;
+    gap: 2px;
+}
+
+.winSegment {
+    background-color: var(--colour-win);
+}
+
+.drawSegment {
+    background-color: var(--colour-draw);
+}
+
+.lossSegment {
+    background-color: var(--colour-loss);
+}
+
+.engineAbout {
+    line-height: 1.3;
 }

@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import Square from './Square';
 import './style/chessboard.css'
 
 function parseFEN(
@@ -39,12 +38,37 @@ function boardtoFEN(grid, moves) {
     return outputString;
 }
 
-type ChessboardProps = {
+function Square({ isDark, row, col, grid, width, height }: {
+    isDark: boolean;
+    row: number;
+    col: number;
+    grid: (string | null)[][];
+    width: number;
+    height: number;
+}) {
+    const piece = grid[row]?.[col];
+
+    const isUpperCase = (str: string) => str === str.toUpperCase();
+
+    return (
+        <div style={{ width: width, height: height }} className={isDark ? "square-d" : "square-l"}>
+            {piece != null ? (
+                <img
+                    src={`/pieces/${isUpperCase(piece) ? "w" : "b"}${piece.toLowerCase()}.png`}
+                    width={ width } height={ height }
+                />
+            ): ""}
+
+        </div>
+    );
+}
+
+function Chessboard({ gameId, setMoveList, width = 90, height = 90 }: {
     gameId: string | undefined;
     setMoveList: React.Dispatch<React.SetStateAction<string[][]>>;
-};
-
-function Chessboard({gameId, setMoveList }: ChessboardProps) {
+    width: number;
+    height: number;
+}) {
     const [grid, setGrid] = useState(parseFEN());
 
     // receive each board move
@@ -106,7 +130,7 @@ function Chessboard({gameId, setMoveList }: ChessboardProps) {
     }, [gameId, setMoveList])
 
     return (
-        <div className="chessboard">
+        <div style={{ gridTemplateColumns: `repeat(8, ${width}px)` }} className="chessboard">
             {Array.from({ length: 64 }, (_, index) => {
                 const row = Math.floor(index / 8);
                 const col = index % 8;
@@ -117,6 +141,8 @@ function Chessboard({gameId, setMoveList }: ChessboardProps) {
                         key={index}
                         isDark={(row + col) % 2 === 1}
                         grid={grid}
+                        width={width}
+                        height={height}
                         />;
             })}
         </div>

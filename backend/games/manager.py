@@ -10,6 +10,8 @@ import traceback
 import chess
 from time import time
 from datetime import datetime
+from bots.models import Bot
+from games.models import Game, Move
 
 class GameManager:
 
@@ -19,19 +21,28 @@ class GameManager:
         self.white = white
         self.black = black
 
+        self.whiteORM = Bot.objects.get(playerid=white.id)
+        self.blackORM = Bot.objects.get(playerid=black.id)
+
         self.whiteId = white.id
         self.blackId = black.id
 
         self.board = chess.Board()
         self.channel_layer = get_channel_layer()
 
+        self.isOver = False
+
         self.white.start()
         self.black.start()
 
     def create(self):
-        with connection.cursor() as cursor:
-            cursor.execute("INSERT INTO games (gameid, whiteid, blackid, timestamp) VALUES (%s, %s, %s, %s);",
-                [self.gameId, self.whiteId, self.blackId, int(time())])
+        Game.objects.create(
+            gameid = self.gameId,
+            white = self.whiteORM,
+            black = self.blackORM,
+            timestamp = int(time()),
+            isDraw = False
+        )
 
     async def gameLoop(self):
         await sync_to_async(self.create)()
@@ -45,6 +56,12 @@ class GameManager:
 
         except Exception:
             traceback.print_exc()
+
+        finally:
+            try:
+                await sync_to_async(self.white.stop)()
+            finally:
+                await sync_to_async(self.black.stop)()
 
     async def broadcast(self, move=None):
         if self.channel_layer is None:
@@ -70,29 +87,65 @@ class GameManager:
         moveParsed = self.board.parse_uci(moveRaw)
         self.board.push(moveParsed)
 
-        with connection.cursor() as cursor:
-            cursor.execute("INSERT INTO moves (moveNum, gameid, move, fen) VALUES (%s, %s, %s, %s);",
-                [self.board.fullmove_number, self.gameId, moveParsed.uci(), self.board.fen()])
+        Move.objects.create(
+            moveNum = self.board.fullmove_number,
+            game = Game.objects.get(gameid=self.gameId),
+            move = moveParsed.uci(),
+            fen = self.board.fen()
+        )
 
-        sleep(1)
         return moveParsed.uci()
 
     @database_sync_to_async
     def gameOver(self):
         outcome = self.board.outcome()
-        winnerId = 0
+        winner = None
 
         if outcome is not None:
             if outcome.winner == chess.WHITE:
-                winnerId = self.whiteId
+                winner = self.whiteORM
             elif outcome.winner == chess.BLACK:
-                winnerId = self.blackId
+                winner = self.blackORM
 
-        with connection.cursor() as cursor:
-            cursor.execute("UPDATE games SET winnerid = %s WHERE gameid = %s;",
-                [winnerId, self.gameId])
+        game = Game.objects.get(gameid=self.gameId)
 
-        print(f"Game {self.gameId} over at {datetime.now().strftime('%I:%M:%S %p')}")
-        print("Result: ", self.board.result())
-        print("Winner: ", str(winnerId))
+        game.winner = winner
+        if winner is None:
+            game.isDraw = True
+
+        game.save()
+
+        print(f"Game {game.gameid}: {self.whiteORM.name} vs {self.blackORM.name} over at {datetime.now().strftime('%I:%M:%S %p')}")
+        print(f"Result: {self.board.result()}")
+        if not game.isDraw:
+            print(f"Winner: {game.winner.name} (id {game.winner.playerid})")
         print("\n")
+
+        self.isOver = True
+
+        # update elo
+        # A = white, B = black
+        Ra = self.whiteORM.elo
+        Rb = self.blackORM.elo
+
+        Ea = 1/(1 + pow(10, (Rb-Ra)/400))
+        Eb = 1 - Ea
+
+        if game.isDraw:
+            Sa = 0.5
+            Sb = 0.5
+        elif game.winner.playerid == self.whiteORM.playerid:
+            Sa = 1
+            Sb = 0
+        elif game.winner.playerid == self.blackORM.playerid:
+            Sa = 0
+            Sb = 1
+
+        RaNew = Ra + round(32 * (Sa - Ea))
+        RbNew = Rb + round(32 * (Sb - Eb))
+
+        self.whiteORM.elo = RaNew
+        self.blackORM.elo = RbNew
+
+        self.whiteORM.save(update_fields=["elo"])
+        self.blackORM.save(update_fields=["elo"])

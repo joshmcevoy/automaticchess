@@ -1,26 +1,30 @@
 .movesPanelCurrentGame {
     display: flex;
     justify-content: center;
-    background-color: #f5f3f3;
+    background-color: var(--colour-background-content-secondary);
 }
 
 .movesPanel {
     display: flex;
     flex-direction: column;
-    background-color: #FFFEFA;
+    background-color: var(--colour-background-content);
     width: 200px;
     min-height: 100%;
 }
 
 .movesPanelInner {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     padding: 10px;
     overflow-y: scroll;
 }
 
+.movesPanelRow {
+    display: flex;
+}
+
 .movesPanelL, .movesPanelR {
-    width: 50%;
+    flex: 1;
 }
 
 .movesPlayed {

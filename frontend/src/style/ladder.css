@@ -28,6 +28,6 @@ table {
     background-color: gray;
 }
 
-.win { background-color: green; }
-.loss { background-color: red; }
-.draw { background-color: gray; }
+.win { background-color: var(--colour-win); }
+.loss { background-color: var(--colour-loss); }
+.draw { background-color: var(--colour-draw); }

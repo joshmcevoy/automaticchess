@@ -2,7 +2,9 @@ import { Link, useParams } from "react-router";
 import { useState, useEffect } from 'react';
 import Chessboard from './chessboard';
 import MovesPanel from './MovesPanel';
+import styles from './style/GameView.module.css';
 import { loadGame, type Game, type Bot } from "./loadGame";
+import { API_URL } from "./config";
 
 function GameView() {
 
@@ -12,36 +14,40 @@ function GameView() {
     const [black, setBlack] = useState<Bot | null>(null);
 
     useEffect(() => {
-        loadGame(gameId)
+        console.log(gameId);
+        loadGame({ gameid: Number(gameId) })
             .then(data => {
-                console.log("loaded game:", data.game);
-                setGame(data.game);
-                setWhite(data.white ?? null);
-                setBlack(data.black ?? null);
+                const game = data[0];
+                console.log(`Loaded game id: ${game.gameid}`);
+                console.log(game);
+                setGame(game);
+                setWhite(game.white);
+                setBlack(game.black);
             })
+            .catch(console.error);
     }, [gameId])
 
     const [moveList, setMoveList] = useState<string[][]>([]);
 
     return (
         <>
-            <div className="playerCard" style={{ borderTop: '3px solid #F0B99C' }}>
-                <img src={'/assets/ppdefault.png'} style={{ paddingRight: "5px" }} width="30" height="30" />
-                <p className="playerName">
-                    <Link to="/engine/31732819">{ black?.name ?? "Loading" }</Link>
+            <div className={`${styles.playerCard} ${styles.playerBlack}`}>
+                <img src={`${API_URL}${game?.black.profilepicture}`} style={{ paddingRight: "5px" }} width="30" height="30" />
+                <p className={ styles.playerName }>
+                    <Link to={`/engine/${black?.playerid}`}>{ black?.name ?? "Loading" }</Link>
                 </p>
-                <p className="elo" title="500 ELO">500</p>
+                <p className="elo" title={`${String(black?.elo ?? 1500)} ELO`}>{ black?.elo ?? 1500 }</p>
             </div>
             <div className="boardmovespanel">
                 <Chessboard gameId={ game?.gameid } moveList={moveList} setMoveList={setMoveList} />
                 <MovesPanel moveList={moveList} />
             </div>
-            <div className="playerCard" style={{ borderBottom: '3px solid #F0B99C' }}>
-                <img src={'/assets/ppdefault.png'} style={{ paddingRight: "5px" }} width="30" height="30" />
-                <p className="playerName">
-                    <Link to="/engine/41049284">{ white?.name ?? "Loading" }</Link>
+            <div className={`${styles.playerCard} ${styles.playerWhite}`}>
+                <img src={`${API_URL}${game?.white.profilepicture}`} style={{ paddingRight: "5px" }} width="30" height="30" />
+                <p className={ styles.playerName }>
+                    <Link to={`/engine/${white?.playerid}`}>{ white?.name ?? "Loading" }</Link>
                 </p>
-                <p className="elo" title="600 ELO">600</p>
+                <p className="elo" title={`${String(white?.elo ?? 1500)} ELO`}>{ white?.elo ?? 1500 }</p>
             </div>
         </>
     )

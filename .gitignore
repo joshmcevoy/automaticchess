@@ -67,3 +67,13 @@ coverage/
 *.temp
 *.swp
 *.swo
+
+# ====================
+# Bot binaries
+# ====================
+backend/bots/engines/botBinaries
+
+# ====================
+# Media
+# ====================
+backend/media

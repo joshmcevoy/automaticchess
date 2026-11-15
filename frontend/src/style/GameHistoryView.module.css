@@ -1,0 +1,45 @@
+.playerHeader, .players {
+    text-align: left;
+}
+
+.heading {
+    background-color: var(--colour-background-content);
+}
+
+.result {
+    justify-content: center;
+}
+
+.gameRow {
+    cursor: pointer;
+}
+
+.gameRow:hover {
+    background-color: #F3F1E7;
+}
+
+/* new */
+
+.tableHeading {
+
+}
+
+.rowL {
+    background-color: var(--colour-background);
+}
+
+.rowD {
+    background-color: var(--colour-background-secondary);
+}
+
+.players, .results {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.players > div, .results > div {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}

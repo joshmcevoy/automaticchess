@@ -1,0 +1,19 @@
+.playerCard {
+    display: flex;
+    align-items: center;
+    background-color: var(--colour-background-content);
+    height: 30px;
+    width: 150px;
+}
+
+.playerBlack {
+    border-top: 3px solid var(--colour-accent1-primary);
+}
+
+.playerWhite {
+    border-bottom: 3px solid var(--colour-accent1-primary);
+}
+
+.playerName {
+    padding-right: 10px;
+}
