@@ -84,9 +84,9 @@ class Engine:
         for line in self.engine.stderr:
             print(f"[Engine error] {line.rstrip()}", file=sys.stderr, flush=True)
 
-    def getMove(self, fen):
+    def getMove(self, uci):
         with self.lock:
-            self.engine.stdin.write(fen + "\n")
+            self.engine.stdin.write(uci + "\n")
             self.engine.stdin.flush()
 
             response = self.engine.stdout.readline()

@@ -53,7 +53,6 @@ class Move(models.Model):
 
     moveNum = models.IntegerField(db_column="moveNum")
     move = models.TextField()
-    fen = models.TextField()
 
     class Meta:
         db_table = "moves"

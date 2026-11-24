@@ -6,37 +6,37 @@ import json
 import random
 
 class RunEngine:
-    def __init__(self, engineName, config):
+    def __init__(self, engineName, config, fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"):
         self.engine = chess.engine.SimpleEngine.popen_uci(
             str(Path(__file__).resolve().parent / "botBinaries" / engineName)
         )
 
         self.engine.configure(config)
+        self.board = chess.Board(fen)
 
-    def choose_move(self, fen):
-        board = chess.Board(fen)
-
-        '''
-        if random.randint(0, 0) == 0:
-            legalMoves = list(board.legal_moves)
-            return random.choice(legalMoves)
-        '''
-
+    def move(self):
         result = self.engine.play(
-            board,
+            self.board,
             chess.engine.Limit(time=1)
         )
 
+        if result.move is None:
+            raise RuntimeError("Engine did not return a move")
+
+        self.board.push(result.move)
         return result.move.uci()
 
     def getInput(self):
         for line in sys.stdin:
-            fen = line.strip()
+            uci = line.strip()
 
-            if fen == "quit":
+            if uci == "quit":
                 break
 
-            move = self.choose_move(fen)
+            if uci != "start":
+                self.board.push_uci(uci)
+
+            move = self.move()
             print(move, flush=True)
 
 if __name__ == "__main__":

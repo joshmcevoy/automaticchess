@@ -1,3 +1,5 @@
+import { API_URL } from "./config"
+
 export type Bot = {
     id: number;
     playerid: number;
@@ -13,7 +15,6 @@ export type Move = {
     id: number;
     moveNum: number;
     move: string;
-    fen: string;
 }
 
 export type Game = {
@@ -36,8 +37,6 @@ export async function fetchJSON<T>(url: string): Promise<T> {
     return response.json();
 }
 
-const baseURL = "http://localhost:8000"
-
 // gameid or botid or neither, but never both.
 type loadGameOptions = { gameid: number, botid?: never } | { botid: number, gameid?: never } | { gameid?: never, botid?: never }
 export async function loadGame(options: loadGameOptions = {}): Promise<Game[]> {
@@ -55,7 +54,7 @@ export async function loadGame(options: loadGameOptions = {}): Promise<Game[]> {
         }
     }
 
-    const result: Game[] = await fetchJSON<Game[]>(baseURL + endpoint);
+    const result: Game[] = await fetchJSON<Game[]>(API_URL + endpoint);
 
     console.log(result);
 
@@ -69,5 +68,5 @@ export async function loadBot(botid?: number): Promise<Bot[]> {
         endpoint = `/api/bots/${botid}`;
     }
 
-    return await fetchJSON<Bot[]>(baseURL + endpoint);
+    return await fetchJSON<Bot[]>(API_URL + endpoint);
 }

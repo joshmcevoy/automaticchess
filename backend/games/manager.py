@@ -72,7 +72,6 @@ class GameManager:
                 {
                     "type": "game.update",
                     "game_id": self.gameId,
-                    "fen": self.board.fen(),
                     "move": move,
                     "ply": len(self.board.move_stack),
                 },
@@ -82,15 +81,19 @@ class GameManager:
     def getMove(self):
         engine = self.white if self.board.turn == chess.WHITE else self.black
 
-        moveRaw = engine.getMove(self.board.fen())
+        # get last played move, default to start if no moves played yet
+        lastPlayedMove = "start"
+        if self.board.move_stack:
+            lastPlayedMove = self.board.peek().uci()
+
+        moveRaw = engine.getMove(lastPlayedMove)
         moveParsed = self.board.parse_uci(moveRaw)
         self.board.push(moveParsed)
 
         Move.objects.create(
             moveNum = self.board.fullmove_number,
             game = Game.objects.get(gameid=self.gameId),
-            move = moveParsed.uci(),
-            fen = self.board.fen()
+            move = moveParsed.uci()
         )
 
         return moveParsed.uci()

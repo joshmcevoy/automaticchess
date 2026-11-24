@@ -1,21 +1,32 @@
-from channels.db import database_sync_to_async
-from django.db import connection
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
+from channels.db import database_sync_to_async
+from django.db.models import F
+from games.models import Move
 import json
+import chess
 
 class GameConsumer(AsyncJsonWebsocketConsumer):
 
     @database_sync_to_async
-    def getGameMoves(self):
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT moveNum, gameid, move, fen FROM moves WHERE gameid = %s", [self.game_id])
+    def getGameSnapshot(self):
+        moves = list(
+            Move.objects
+            .filter(game_id=self.game_id)
+            .order_by("id")
+            .annotate(gameid=F("game_id"))
+            .values("moveNum", "gameid", "move")
+        )
 
-            columns = [column[0] for column in cursor.description]
+        board = chess.Board()
 
-            return [
-                dict(zip(columns, row))
-                for row in cursor.fetchall()
-            ]
+        for row in moves:
+            board.push_uci(row["move"])
+
+        return {
+            "fen": board.fen(),
+            "ply": len(moves),
+            "moveData": moves
+        }
 
     async def connect(self):
         self.game_id = self.scope["url_route"]["kwargs"]["game_id"]
@@ -28,9 +39,10 @@ class GameConsumer(AsyncJsonWebsocketConsumer):
 
         await self.accept()
 
+        snapshot = await self.getGameSnapshot()
         await self.send(text_data=json.dumps({
-            "type": "snapshot",
-            "moveData": await self.getGameMoves()
+            "type": "game.snapshot",
+            **snapshot
         }))
 
     async def disconnect(self, code):

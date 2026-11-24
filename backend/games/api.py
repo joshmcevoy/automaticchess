@@ -38,8 +38,6 @@ def getGames(request, gameId=None):
     if getLatest:
         games = games.order_by("-id")[:1]
 
-    print("gets here")
-    print(games)
     if len(games) == 0:
         return JsonResponse({"error": "Game not found"})
 
@@ -50,8 +48,7 @@ def getGames(request, gameId=None):
             {
                 "id": move.id,
                 "moveNum": move.moveNum,
-                "move": move.move,
-                "fen": move.fen
+                "move": move.move
             }
             for move in game.moves.all()
         ]
@@ -71,47 +68,6 @@ def getGames(request, gameId=None):
         results.append(gameInfo)
 
     return JsonResponse(results, safe=False)
-
-'''
-def getAllGames(request):
-    limit = request.GET.get("limit") if request.GET.get("limit") is not None else -1
-    offset = request.GET.get("offset") if request.GET.get("offset") is not None else -1
-    botId = request.GET.get("botid")
-
-    query = "SELECT * FROM games WHERE whiteid = %s OR blackid = %s LIMIT %s OFFSET %s;"
-    params = [botId, botId, limit, offset]
-
-    if botId is None:
-        query = "SELECT * FROM games LIMIT %s OFFSET %s;"
-        params = [limit, offset]
-
-    with connection.cursor() as cursor:
-        cursor.execute(query, params)
-
-        rows = cursor.fetchall()
-        cols = [col[0] for col in cursor.description]
-
-    gameData = [dict(zip(cols, row)) for row in rows]
-
-    for game in gameData:
-        botIds = [game.pop("whiteid"), game.pop("blackid")]
-
-        for botId in botIds:
-            with connection.cursor() as cursor:
-                cursor.execute("SELECT name FROM bots WHERE playerid = %s ORDER BY id ASC LIMIT 1;", [botId])
-                botName = cursor.fetchone()
-
-                print(botName)
-
-    returnData = {
-        "results": [
-            gameData
-        ]
-    }
-
-    return JsonResponse(returnData, safe=False)
-
-'''
 
 def getGame(request, gameId):
     return JsonResponse({"ok": True})
