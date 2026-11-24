@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-
+from .serializers import serializeBot
 from .models import Bot
 
 # get all or single game
@@ -15,14 +15,6 @@ def getBot(request, botId=None):
     results = []
 
     for bot in bots:
-        botInfo = {
-            "id": bot.id,
-            "playerid": bot.playerid,
-            "name": bot.name,
-            "path": bot.path,
-            "profilepicture": bot.profilepicture
-        }
-
-        results.append(botInfo)
+        results.append(serializeBot(bot))
 
     return JsonResponse(results, safe=False)

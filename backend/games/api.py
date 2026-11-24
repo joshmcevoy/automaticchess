@@ -1,6 +1,8 @@
 from django.http import JsonResponse
 from django.db.models import Q
 
+from bots.serializers import serializeBot
+
 from .models import Game
 
 # get all or single game
@@ -36,6 +38,8 @@ def getGames(request, gameId=None):
     if getLatest:
         games = games.order_by("-id")[:1]
 
+    print("gets here")
+    print(games)
     if len(games) == 0:
         return JsonResponse({"error": "Game not found"})
 
@@ -55,29 +59,9 @@ def getGames(request, gameId=None):
         gameInfo = {
             "id": game.id,
             "gameid": str(game.gameid),
-            "white": {
-                "id": game.white.id,
-                "playerid": str(game.white.playerid),
-                "name": game.white.name,
-                "path": game.white.path,
-                "profilepicture": game.white.profilepicture,
-                "elo": game.white.elo
-            },
-            "black": {
-                "id": game.black.id,
-                "playerid": str(game.black.playerid),
-                "name": game.black.name,
-                "path": game.black.path,
-                "profilepicture": game.black.profilepicture,
-                "elo": game.black.elo
-            },
-            "winner": {
-                "id": game.winner.id,
-                "playerid": str(game.winner.playerid),
-                "name": game.winner.name,
-                "path": game.winner.path,
-                "profilepicture": game.winner.profilepicture
-            } if game.winner is not None else None,
+            "white": serializeBot(game.white),
+            "black": serializeBot(game.black),
+            "winner": serializeBot(game.winner) if game.winner is not None else None,
             "ongoing": game.winner is None and game.isDraw is False,
             "isDraw": game.isDraw,
             "timestamp": game.timestamp,

@@ -1,5 +1,9 @@
 from django.db import models
+from time import time
 from bots.models import Bot
+
+def currentTimestamp():
+    return int(time())
 
 class Game(models.Model):
     id = models.AutoField(primary_key=True)
@@ -30,12 +34,11 @@ class Game(models.Model):
         blank=True
     )
 
-    isDraw = models.BooleanField(db_column="isDraw")
-    timestamp = models.IntegerField(db_column="timestamp")
+    isDraw = models.BooleanField()
+    timestamp = models.IntegerField(default=currentTimestamp)
 
     class Meta:
         db_table = "games"
-        managed = False
 
 class Move(models.Model):
     id = models.AutoField(primary_key=True)
@@ -54,4 +57,3 @@ class Move(models.Model):
 
     class Meta:
         db_table = "moves"
-        managed = False

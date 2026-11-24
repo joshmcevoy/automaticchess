@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import styles from './style/GameHistoryView.module.css'
 import { loadGame, type Game } from "./loadGame"
-import Chessboard from './chessboard';
+import Chessboard from './Chessboard';
+import { PROJ_NAME } from './config'
 
 function GameHistoryView() {
 
@@ -60,42 +61,43 @@ function GameHistoryView() {
         return (<>Unknown</>);
     }
 
-    const [moveList, setMoveList] = useState<string[][]>([]);
-
     return (
-        <div className="games">
-            <table>
-                <tr className={styles.tableHeading}>
-                    <th>Board</th>
-                    <th>Players</th>
-                    <th>Results</th>
-                    <th>Moves</th>
-                    <th>Date</th>
-                </tr>
-                {gameData?.map((game) => (
-                    <tr
-                        key={game.id}
-                        className={game.id % 2 == 0 ? styles.rowD : styles.rowL}
-                        onClick={() => navigate(`/game/${game.gameid}`)}
-                    >
-                        <td>
-                            <Chessboard gameId={ String(game.gameid) } setMoveList={setMoveList} width={ 15 } height={ 15 } />
-                        </td>
-                        <td>
-                            <div className={styles.players}>
-                                <div>{game.white.name}</div>
-                                <div>{game.black.name}</div>
-                            </div>
-                        </td>
-                        <td>
-                            {renderResult(game)}
-                        </td>
-                        <td>{game.moves.length}</td>
-                        <td>{ formatTimestamp(game.timestamp) }</td>
+        <>
+            <title>{`Games - ${PROJ_NAME}`}</title>
+            <div className="games">
+                <table>
+                    <tr className={styles.tableHeading}>
+                        <th>Board</th>
+                        <th>Players</th>
+                        <th>Results</th>
+                        <th>Moves</th>
+                        <th>Date</th>
                     </tr>
-                ))}
-            </table>
-        </div>
+                    {gameData?.map((game) => (
+                        <tr
+                            key={game.id}
+                            className={game.id % 2 == 0 ? styles.rowD : styles.rowL}
+                            onClick={() => navigate(`/game/${game.gameid}`)}
+                        >
+                            <td>
+                                <Chessboard gameId={ String(game.gameid) } setMoveList={undefined} width={ 15 } height={ 15 } />
+                            </td>
+                            <td>
+                                <div className={styles.players}>
+                                    <div>{game.white.name}</div>
+                                    <div>{game.black.name}</div>
+                                </div>
+                            </td>
+                            <td>
+                                {renderResult(game)}
+                            </td>
+                            <td>{game.moves.length}</td>
+                            <td>{ formatTimestamp(game.timestamp) }</td>
+                        </tr>
+                    ))}
+                </table>
+            </div>
+        </>
     )
 }
 

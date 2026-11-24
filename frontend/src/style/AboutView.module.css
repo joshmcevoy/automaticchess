@@ -1,0 +1,21 @@
+.contentPane {
+    flex-shrink: 0;
+    width: 200px;
+    margin-top: 21.440px;
+    padding: 15px;
+    margin-right: 15px;
+    border: 1px solid var(--colour-background-secondary);
+    border-radius: 5px;
+}
+
+.contentDivider {
+    border-color: var(--colour-background-secondary);
+}
+
+.intro {
+    display: flex;
+    justify-content: space-between;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    gap: 15px;
+}

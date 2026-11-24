@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
-import './style/chessboard.css'
+import { useState, useEffect } from 'react';
+import styles from "./style/Chessboard.module.css";
 
 function parseFEN(
     fen: string = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
@@ -22,22 +22,6 @@ function parseFEN(
 
 }
 
-function boardtoFEN(grid, moves) {
-    const piecePlacement = grid.map(row => {
-        const text = row.map(cell => cell === null ? "null" : cell).join("");
-        return text.replace(/(?:null)+/g, match => String(match.length / 4));
-    }).join("/");
-
-    const curMove = moves % 2 == 0 ? "b" : "w"
-    // update these in the future from placeholder values
-    const castlingAbility = "KQkq"
-    const enPassant = "-"
-    const halfMove = "0"
-
-    const outputString = `${piecePlacement} ${curMove} ${castlingAbility} ${enPassant} ${halfMove} ${moves}`;
-    return outputString;
-}
-
 function Square({ isDark, row, col, grid, width, height }: {
     isDark: boolean;
     row: number;
@@ -51,7 +35,7 @@ function Square({ isDark, row, col, grid, width, height }: {
     const isUpperCase = (str: string) => str === str.toUpperCase();
 
     return (
-        <div style={{ width: width, height: height }} className={isDark ? "square-d" : "square-l"}>
+        <div style={{ width: width, height: height }} className={isDark ? styles.squareD : styles.squareL}>
             {piece != null ? (
                 <img
                     src={`/pieces/${isUpperCase(piece) ? "w" : "b"}${piece.toLowerCase()}.png`}
@@ -65,9 +49,9 @@ function Square({ isDark, row, col, grid, width, height }: {
 
 function Chessboard({ gameId, setMoveList, width = 90, height = 90 }: {
     gameId: string | undefined;
-    setMoveList: React.Dispatch<React.SetStateAction<string[][]>>;
-    width: number;
-    height: number;
+    setMoveList: React.Dispatch<React.SetStateAction<string[][]>> | undefined;
+    width?: number;
+    height?: number;
 }) {
     const [grid, setGrid] = useState(parseFEN());
 
@@ -76,6 +60,8 @@ function Chessboard({ gameId, setMoveList, width = 90, height = 90 }: {
         if (gameId === undefined) return;
 
         function addMove(move: string) {
+            if (setMoveList === undefined) return;
+
             const toCoord = move.slice(2, 4);
 
             setMoveList(previous => {
@@ -130,7 +116,7 @@ function Chessboard({ gameId, setMoveList, width = 90, height = 90 }: {
     }, [gameId, setMoveList])
 
     return (
-        <div style={{ gridTemplateColumns: `repeat(8, ${width}px)` }} className="chessboard">
+        <div style={{ gridTemplateColumns: `repeat(8, ${width}px)` }} className={styles.chessboard}>
             {Array.from({ length: 64 }, (_, index) => {
                 const row = Math.floor(index / 8);
                 const col = index % 8;

@@ -5,6 +5,8 @@ export type Bot = {
     path: string;
     profilepicture: string;
     elo: number;
+    description: string;
+    joindate: string;
 }
 
 export type Move = {

@@ -40,7 +40,6 @@ class GameManager:
             gameid = self.gameId,
             white = self.whiteORM,
             black = self.blackORM,
-            timestamp = int(time()),
             isDraw = False
         )
 

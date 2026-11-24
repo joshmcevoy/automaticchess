@@ -16,43 +16,9 @@
     margin: 3px;
 }
 
-hr {
-    border: none;
-    border-top: 1px solid #DCDDD3;
-    margin-top: 10px; margin-bottom: 10px;
-}
-
 .engineImg {
     border-radius: 5%;
     object-fit: cover;
-}
-/*
-h2 {
-    font-size: 32px;
-    letter-spacing: 0.5px;
-}
-*/
-h3 {
-    font-size: 30px;
-    font-weight: 400;
-    margin: 0;
-    padding: 0;
-}
-
-h4 {
-    font-size: 25px;
-    font-weight: 400;
-    margin: 0;
-    padding: 0;
-}
-
-.statisticDesc {
-    font-weight: 350;
-    color: var(--colour-text-secondary);
-    font-size: 15px;
-    margin: 0;
-    padding-top: 10px;
-    padding-bottom: 10px;
 }
 
 .statistics {
@@ -61,16 +27,16 @@ h4 {
     align-items: center;
 }
 
+.statistics .desc {
+    font-weight: 350;
+    color: var(--colour-text-secondary);
+    font-size: 15px;
+    margin: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 /* recent games table */
-
-td, tr, table {
-    padding: 0;
-}
-
-td, th {
-    text-align: left;
-    font-size: 18px;
-}
 
 .rgTable {
     border-collapse: collapse;

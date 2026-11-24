@@ -6,10 +6,10 @@
     width: 90px; height: 90px;
 }
 
-.square-l {
+.squareL {
     background-color: var(--colour-square-l);
 }
 
-.square-d {
+.squareD {
     background-color: var(--colour-square-d);
 }

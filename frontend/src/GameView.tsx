@@ -1,10 +1,10 @@
 import { Link, useParams } from "react-router";
 import { useState, useEffect } from 'react';
-import Chessboard from './chessboard';
+import Chessboard from './Chessboard';
 import MovesPanel from './MovesPanel';
 import styles from './style/GameView.module.css';
 import { loadGame, type Game, type Bot } from "./loadGame";
-import { API_URL } from "./config";
+import { API_URL, PROJ_NAME } from "./config";
 
 function GameView() {
 
@@ -31,6 +31,7 @@ function GameView() {
 
     return (
         <>
+            <title>{game ? `${game.white.name} vs ${game.black.name} - ${PROJ_NAME}` : PROJ_NAME}</title>
             <div className={`${styles.playerCard} ${styles.playerBlack}`}>
                 <img src={`${API_URL}${game?.black.profilepicture}`} style={{ paddingRight: "5px" }} width="30" height="30" />
                 <p className={ styles.playerName }>
@@ -39,7 +40,7 @@ function GameView() {
                 <p className="elo" title={`${String(black?.elo ?? 1500)} ELO`}>{ black?.elo ?? 1500 }</p>
             </div>
             <div className="boardmovespanel">
-                <Chessboard gameId={ game?.gameid } moveList={moveList} setMoveList={setMoveList} />
+                <Chessboard gameId={ String(game?.gameid) } setMoveList={setMoveList} />
                 <MovesPanel moveList={moveList} />
             </div>
             <div className={`${styles.playerCard} ${styles.playerWhite}`}>
