@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import styles from "./style/Chessboard.module.css";
+import WinnerPane from './WinnerPane.tsx';
 import { API_URL_BASE } from "./config";
+import { type Game } from "./loadGame";
 
 type Cell = string | null;
 type Board = Cell[][];
@@ -104,17 +106,25 @@ function Move(ucimove: string, board: Board): Board {
     return nextBoard;
 }
 
-function Chessboard({ gameId, setMoveList, width = 90, height = 90 }: {
-    gameId: string | undefined;
+function Chessboard({ game, setGame, setMoveList, width = 90, height = 90 }: {
+    game: Game;
+    setGame: React.Dispatch<React.SetStateAction<Game | null>>;
     setMoveList: React.Dispatch<React.SetStateAction<string[][]>> | undefined;
     width?: number;
     height?: number;
 }) {
     const [board, setBoard] = useState<Board>(parseFEN());
+    const [winnerPaneVisible, setWinnerPaneVisible] = useState(false);
+
+    useEffect(() => {
+        if (game?.ongoing === false) {
+            setWinnerPaneVisible(true);
+        }
+    }, [game?.ongoing])
 
     // receive each board move
     useEffect(() => {
-        if (gameId === undefined) return;
+        if (game === undefined) return;
 
         function addMove(move: string) {
             if (setMoveList === undefined) return;
@@ -135,8 +145,8 @@ function Chessboard({ gameId, setMoveList, width = 90, height = 90 }: {
             });
         }
 
-        console.log(`Loading game ${gameId}`);
-        const socket = new WebSocket(`ws://${API_URL_BASE}/ws/game/${gameId}`);
+        console.log(`Loading game ${game.gameid}`);
+        const socket = new WebSocket(`ws://${API_URL_BASE}/ws/game/${game.gameid}`);
 
         // new updates are either:
         // snapshot: current board layout & moves upon new load
@@ -163,6 +173,26 @@ function Chessboard({ gameId, setMoveList, width = 90, height = 90 }: {
                 setBoard(currentBoard => Move(update["move"], currentBoard));
                 addMove(move);
             }
+
+            if (update.type === "game.over") {
+                const winner = update["winnerid"] == game.white.playerid ? game.white : game.black;
+                const isDraw = update["isDraw"];
+
+                setGame(game => {
+                    if (game === null) return null;
+
+                    const updatedGame = {
+                        ...game,
+                        winner: winner,
+                        ongoing: false,
+                        isDraw: isDraw
+                    };
+
+                    return updatedGame;
+                });
+
+                setWinnerPaneVisible(true);
+            }
         };
 
         return () => {
@@ -170,15 +200,22 @@ function Chessboard({ gameId, setMoveList, width = 90, height = 90 }: {
             socket.close();
         };
 
-    }, [gameId, setMoveList])
+    }, [game, setMoveList])
 
     return (
-        <div style={{ gridTemplateColumns: `repeat(8, ${width}px)` }} className={styles.chessboard}>
-            {Array.from({ length: 64 }, (_, index) => {
-                const row = Math.floor(index / 8);
-                const col = index % 8;
+        <div style={{ position: "relative" }}>
+            {winnerPaneVisible &&
+                <WinnerPane
+                    game={game}
+                    onClose={() => setWinnerPaneVisible(false)}
+                />
+            }
+            <div style={{ gridTemplateColumns: `repeat(8, ${width}px)` }} className={styles.chessboard}>
+                {Array.from({ length: 64 }, (_, index) => {
+                    const row = Math.floor(index / 8);
+                    const col = index % 8;
 
-                return <Square
+                    return <Square
                         row={row}
                         col={col}
                         key={index}
@@ -187,7 +224,8 @@ function Chessboard({ gameId, setMoveList, width = 90, height = 90 }: {
                         width={width}
                         height={height}
                         />;
-            })}
+                })}
+            </div>
         </div>
     )
 }

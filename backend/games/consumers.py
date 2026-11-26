@@ -53,3 +53,6 @@ class GameConsumer(AsyncJsonWebsocketConsumer):
 
     async def game_update(self, event):
         await self.send_json(event)
+
+    async def game_over(self, event):
+        await self.send_json(event)

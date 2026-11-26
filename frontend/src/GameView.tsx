@@ -40,7 +40,13 @@ function GameView() {
                 <p className="elo" title={`${String(black?.elo ?? 1500)} ELO`}>{ black?.elo ?? 1500 }</p>
             </div>
             <div className="boardmovespanel">
-                <Chessboard gameId={ String(game?.gameid) } setMoveList={setMoveList} />
+                {game && (
+                    <Chessboard
+                        game={game}
+                        setGame={setGame}
+                        setMoveList={setMoveList}
+                    />
+                )}
                 <MovesPanel moveList={moveList} />
             </div>
             <div className={`${styles.playerCard} ${styles.playerWhite}`}>

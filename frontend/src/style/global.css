@@ -16,10 +16,11 @@
     --colour-square-d: #83977A;
 
     --colour-text: #382B29;
+    --colour-text-inverted: #F3EAE2;
     --colour-text-secondary: #80716A;
 
     --colour-accent1-primary: #B34C6A;
-    --colour-accent1-secondary: #348C91;
+    --colour-accent1-secondary: #8f465b;
 
     --colour-accent2-primary: #D49A42;
 
@@ -45,10 +46,11 @@
         --colour-square-d: #576F7D;
 
         --colour-text: #F3EAE2;
+        --colour-text-inverted: #382B29;
         --colour-text-secondary: #C0B1A7;
 
         --colour-accent1-primary: #DD7997;
-        --colour-accent1-secondary: #78C2C5;
+        --colour-accent1-secondary: #b2667c;
 
         --colour-accent2-primary: #E6B366;
 

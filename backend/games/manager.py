@@ -4,7 +4,7 @@ from time import sleep
 from channels.db import database_sync_to_async
 from channels.layers import get_channel_layer
 from django.db import connection
-from asgiref.sync import sync_to_async
+from asgiref.sync import async_to_sync, sync_to_async
 from bots.engine import Engine
 import traceback
 import chess
@@ -151,3 +151,14 @@ class GameManager:
 
         self.whiteORM.save(update_fields=["elo"])
         self.blackORM.save(update_fields=["elo"])
+
+        async_to_sync(self.channel_layer.group_send)(
+            f"game.{self.gameId}",
+            {
+                "type": "game.over",
+                "winnerid": winner.playerid if winner else None,
+                "isDraw": game.isDraw,
+                "ply": len(self.board.move_stack),
+                "newElo": game.winner.elo + abs(RaNew) if winner else None
+            }
+        )
